@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Landing Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">LOGO</a>
+        <div id="menu-bar" class="fas fa-bars"></div>
+        <nav class="navbar">
+            <a href="#home">home</a>
+            <a href="#features">features</a>
+            <a href="#about">about</a>
+            <a href="#usage">usage</a>
+            <a href="#review">review</a>
+            <a href="#pricing">pricing</a>
+        </nav>
+    </header>
+
+    <section class="home" id="home">
+        <div class="content">
+            <h3>app landing page</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, id sunt! Error ut, deleniti hic
+                sequi sed quia accusamus nostrum, est repellat maxime iste natus praesentium nemo, eligendi veritatis in
+                atque pariatur laborum asperiores?</p>
+            <a href="#" class="btn">get started</a>
+        </div>
+
+        <div class="swiper-container image-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/shot-01.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-02.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-03.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-04.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-05.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-01.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-02.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-03.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-04.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-05.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-01.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-02.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-03.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-04.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/shot-05.jpg" alt=""></div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+
+        const swiper = new Swiper('.image-slider', {
+            effect: 'coverflow',
+            loop: true,
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2,
+                slideShadows: true,
+            },
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            }
+        });
+
+        let menu = document.querySelector('#menu-bar');
+        let navbar = document.querySelector('.navbar');
+
+        menu.addEventListener('click', () => {
+            menu.classList.toggle('fa-times');
+            navbar.classList.toggle('nav-toggle');
+        });
+
+        window.onscroll = () => {
+            menu.classList.remove('fa-times');
+            navbar.classList.remove('nav-toggle');
+        }
+
+    </script>
+</body>
+
+</html>

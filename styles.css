@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&family=Ubuntu:wght@300;400;500;700&display=swap');
+
+:root{
+    --black: #272D3B;
+    --red: #ED176F;
+    --coral: #F7817F;
+    --gradient: linear-gradient(90deg, var(--red), var(--coral));
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+}
+
+*::selection{
+    background: var(--red);
+    color: #fff
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--black);
+    z-index: 1000;
+    padding: 2rem 9%;
+    border-bottom: .1rem solid #fff3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .logo{
+    font-weight: bolder;
+    color: #fff;
+    font-size: 2.5rem;
+}
+
+header .navbar a{
+    font-size: 2rem;
+    margin-left: 2.5rem;
+    color: #fff;
+}
+
+header .navbar a:hover{
+    color: var(--red);
+}
+
+#menu-bar{
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+
+section{
+    padding: 3rem 9%;
+}
+
+.home{
+    background: url(../images/home-bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.home .content{
+    padding-top: 5rem;
+    width: 70rem;
+    margin: 0 auto;
+}
+
+.home .content h3{
+    font-size: 6.5rem;
+    color: #fff;
+}
+
+.home .content p{
+    font-size: 1.7rem;
+    color: #eee;
+    padding: 1rem 0;
+}
+
+.btn{
+    display: inline-block;
+    padding: .7rem 3rem;
+    margin-top: 1rem;
+    border-radius: 5rem;
+    background: var(--gradient);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.7rem;
+}
+
+.btn:hover{
+    transform: scale(1.1);
+}
+
+.home .swiper-container{
+    margin: 0 auto;
+    width: 84%;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    overflow-x: hidden;
+}
+
+.home .swiper-slide{
+    width: 35rem;
+    height: 60rem;
+}
+
+.home .swiper-slide img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 991px){
+
+    html{
+        font-size: 55%;
+    }
+
+    header{
+        padding: 2rem 4%;
+    }
+
+}
+
+@media (max-width: 768px){
+
+    #menu-bar{
+        display: block;
+    }
+
+    header .navbar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--black);
+        border-top: .1rem solid #fff3;
+        padding: 1rem 2rem;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    header .navbar.nav-toggle{
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    header .navbar a{
+        display: block;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: var(--gradient);
+        text-align: center;
+        border-radius: .5rem;
+    }
+
+    header .navber a:hover{
+        color: var(--black);
+
+    }
+
+    .fa-times{
+        transform: rotate(180deg);
+    }
+
+}
+
+@media (max-width: 400px){
+
+    html{
+        font-size: 50%;
+    }
+
+}
+
