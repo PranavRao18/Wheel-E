@@ -1,0 +1,79 @@
+tet
+# Python-related files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database
+*.sqlite3
+*.db
+
+# Static files (collected assets)
+/staticfiles/
+
+# Media files (user-uploaded content)
+/media/
+
+# Secret keys and sensitive information
+*.env
+*.secret
+
+# IDE and editor files
+.idea/
+.vscode/
+
+# Temporary or generated files
+__pycache__/
+*.egg-info/
+*.egg
+*.eggs/
+*.build
+*.pyc
+*.swp
+*.swo
+*.bak
+*.log
+*.tmp
+*.temp
+*.out
+
+# Dependency management
+venv/
+env/
+__env__/
+.pipenv/
+*.venv/
+pipenv.lock
+Pipfile.lock
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Compiled extensions
+*.so
+
+# Cache files
+__pycache__/
+.cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor-specific
+*~
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Backups (including .bak, .backup, and *.swp)
+*~
+*.bak
+*.backup
+*.swp
