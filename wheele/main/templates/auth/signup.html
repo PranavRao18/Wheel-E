@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,15 +7,19 @@
     <link rel="stylesheet" href="signupstyles.css" />
     <title>Wheel-E Signup</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+        :root {
+            --green: #45C952;
+        }
+        body {
+        font-family: 'Montserrat', sans-serif;
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: #f5f5f5;
+        background-color: #90fb9b;
       }
       
       .signup-container {
@@ -42,22 +47,24 @@
         padding: 10px;
         margin: 5px 0;
         border: 1px solid #ccc;
-        border-radius: 5px;
+        border-radius: 10px;
+        font-size: 1.1rem;
       }
       
       .signup-button {
-        background-color: #4caf50;
+        background-color: var(--green);
         color: white;
-        padding: 10px 0;
+        padding: 1rem 0;
         border: none;
-        border-radius: 5px;
+        border-radius: 10px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 1.4rem;
         margin-top: 10px;
+        font-weight: bold;
       }
       
       .signup-button:hover {
-        background-color: #45a049;
+        transform: scale(1.05);
       }
       
       .login-link {
@@ -75,10 +82,10 @@
   </head>
   <body>
     <div class="signup-container">
-      <img src="logo.png" alt="Electric Taxi Logo" class="logo" />
+      <img src="{% static 'images/logo.png' %}" alt="Electric Taxi Logo" class="logo" />
       <h1>Create an Account</h1>
       <p>Please fill in the following details to sign up.</p>
-      <h2>Sign Up</h2>
+      {% comment %} <h2>Sign Up</h2> {% endcomment %}
       {% comment %} <form method="post">
         {% csrf_token %}
         <div class="form-group">
@@ -121,12 +128,12 @@
         <input type="password" name="Confirmpassword" id="Confirmpassword" class="form-control input-field" required placeholder="Confirm password"/>
         {% comment %} <input type="password" placeholder="Confirm Password" class="input-field" id="Confirmpassword" /> {% endcomment %}
         <input type="text" name="phone" id="phone" class="form-control input-field" required placeholder="Phone-number"/>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="submit" class="signup-button">Sign Up</button>
         {% comment %} <button type="submit" class="signup-button">Sign Up</button> {% endcomment %}
       </form>
       <p class="login-link">
-        Already have an account? <a href="login.html">Log In</a>
-      </p>
+        Already have an account? <a href="{% url 'login' %}">Log In</a>
+    </p>
     </div>
   </body>
 </html>
