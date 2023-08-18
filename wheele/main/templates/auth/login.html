@@ -6,17 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Electric Taxi Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Wheel-E Login</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+
+        .green {
+            --green: #45C952;
+        }
+
+        .bg-green-300 {
+            background-color: #90fb9b;
+        }
+
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
         }
 
         .login-container {
@@ -25,7 +29,7 @@
             padding: 5rem;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 400px;
+            max-width: 400rem;
         }
 
         .logo {
@@ -39,76 +43,42 @@
         }
 
         .input-field {
-            padding: 0.5rem;
-            margin: 5px 0;
+            padding: 1rem;
+            margin: 0rem 0;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            width: 20rem;
         }
 
-        .login-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        .animate:hover{
+            transform: scale(1.05);
         }
 
-        .login-button:hover {
-            background-color: #45a049;
-        }
-
-        .google-login {
-            display: inline-block;
-            background-color: #4285F4;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .google-login:hover {
-            background-color: #357AE8;
-        }
-
-        .google-icon {
-            width: 18px;
-            height: 18px;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-
-        .forgot-password {
-            margin-top: 10px;
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
+        .footer {
+            margin-top: 4rem;
+            margin-bottom: 0;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-green-300 font-sans flex justify-center items-center h-screen">
 
     <div class="login-container">
-        <img src="{% static 'images/logo.png' %}" alt="Electric Taxi Logo" class="logo">
-        <h1>Welcome back!</h1>
+        <img src="{% static 'images/logo.png' %}" alt="Wheel-E Logo" class="logo">
+        <h1 class="font-montserrat text-xl font-bold">Welcome back!</h1>
         <p>Please sign in to continue.</p>
-        <form class="login-form" method="post"> {% csrf_token %}
-            <input type="text" id="username" name="username" required class="input-field" for="username"
-                placeholder="Email" /><br />
-            <input type="password" id="password" name="password" required class="input-field" for="password"
-                placeholder="Password" /><br />
-            <input type="checkbox" id="remember_me" name="remember_me" class="remember-me" for="remember_me">Remember
-            Me:</input>
+        <form class="login-form space-y-4" method="post"> {% csrf_token %}
+            <input type="text" id="username" name="username" required class="input-field" placeholder="Username">
+            <input type="password" id="password" name="password" required class="input-field" placeholder="Password">
 
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit"
+                class="bg-green-500 text-white font-montserrat font-semibold py-4 px-6 rounded-md cursor-pointer animate">Login</button>
+
+            <div class="flex items-center mt-2">
+                <input type="checkbox" id="remember_me" name="remember_me" class="remember-me mr-2">
+                <label for="remember_me">Remember Me</label>
+            </div>
         </form>
         {% if messages %}
     <div class="messages">

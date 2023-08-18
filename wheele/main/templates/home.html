@@ -65,24 +65,37 @@
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
             z-index: 1000;
-            padding: 2rem 9%;
+            padding: 2rem 1rem;
             display: flex;
+            justify-content: space-between; /* Align content on the left and right */
             align-items: center;
-            justify-content: space-between;
-            margin: 0 5rem 5rem;
-            background-color: #fff;
+            background-color: #ffffff00;
+            width: 20rem; /* Set a fixed width for the sidebar */
+            height: 100vh; /* Make the sidebar full height */
+        }
+
+        header .completelogo img {
+            margin-top: 1rem;
+            width: 100%; /* Make the logo span the full width */
+        }
+
+        header .navbar {
+            /* Remove positioning properties */
+            display: flex;
+            flex-direction: column; /* Align elements vertically */
+            align-items: flex-start; /* Align elements to the left */
+            margin-top: 1rem; /* Add spacing between items */
+            background-color: #eee;
+            border-radius: 15px;
+            height: auto;
         }
 
         header .logo {
             font-weight: bolder;
             color: #000;
             font-size: 2.5rem;
-        }
-
-        header .completelogo img {
-            width: 5rem;
+            margin-top: 0;
         }
 
         header .navbar a {
@@ -133,8 +146,11 @@
 
         .home .content {
             padding-top: 20rem;
-            max-width: 70rem;
             margin: 0 10%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .home .content h3 {
@@ -212,7 +228,7 @@
 
         /* media queries */
 
-        @media (max-width:991px) {
+        @media (max-width:1100px) {
 
             html {
                 font-size: 55%;
@@ -228,10 +244,16 @@
 
         }
 
-        @media (max-width:830px) {
+        @media (max-width:914px) {
 
             #menu-bar {
                 display: block;
+            }
+
+            header{
+                align-items: flex-start;
+                height: auto;
+                width: auto;
             }
 
             header .navbar {
@@ -298,10 +320,9 @@
 
     <header>
 
-        <div class="completelogo">
-            <!--<a href="home"><img src="{% static 'images/icon.png'%}" alt=""></a>-->
-            <a href="#home" class="logo">Wheel-E</a>
-        </div>
+        <!-- <div class="completelogo">
+            <a href="home"><img src="{% static 'images/icon.png'%}" alt=""></a>
+        </div> -->
 
         <div id="menu-bar" class="fas fa-bars"></div>
 
@@ -322,10 +343,18 @@
     <section class="home" id="home">
 
         <div class="content">
-            <h3>Find the best<br>Taxi Ride.</h3>
-            <p>Introducing Wheel-E: Experience eco-friendly rides with our electric taxi fleet. Swift, sustainable, and
-                powered for a greener future.</p>
-            <a href="{% url 'register' %}" class="btn">RIDE NOW</a>
+
+            <div class="content1">
+                <h3>Find the best<br>Taxi Ride.</h3>
+                <p>Introducing Wheel-E: Experience eco-friendly rides with our electric taxi fleet.<br> Swift, sustainable, and
+                    powered for a greener future.</p>
+                <a href="{% url 'register' %}" class="btn">RIDE NOW</a>
+            </div>
+    
+            <div class="content2">
+                <img src="{% static 'images/ev removed bg.png' %}" alt="">
+            </div>
+
         </div>
 
     </section>
