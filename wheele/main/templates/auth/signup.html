@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="signupstyles.css" />
+    <title>Wheel-E Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+      
+      .signup-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        width: 90%; /* Responsive width */
+        margin: 0 auto;
+      }
+      
+      .logo {
+        width: 80px;
+        margin-bottom: 20px;
+      }
+      
+      .signup-form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .input-field {
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      .signup-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      
+      .signup-button:hover {
+        background-color: #45a049;
+      }
+      
+      .login-link {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      
+      /* Media query for responsiveness */
+      @media screen and (max-width: 768px) {
+        .signup-container {
+          width: 95%; /* Adjust for smaller screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <img src="logo.png" alt="Electric Taxi Logo" class="logo" />
+      <h1>Create an Account</h1>
+      <p>Please fill in the following details to sign up.</p>
+      <h2>Sign Up</h2>
+      {% comment %} <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="email">Email</label>
+          
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          
+        </div>
+        <div class="form-group">
+          <label for="Confirmpassword">Confirm Password</label>
+          
+        </div>
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          
+        </div>
+        
+      </form> {% endcomment %}
+      <!--your code-->
+      <form class="signup-form" method="post">
+        {% csrf_token %}
+        <input type="text" name="firstname" id="firstname" class="form-control input-field" required placeholder="First Name"/>
+        {% comment %} <input type="text" placeholder="First Name" class="input-field" id="firstname" name="firstname" /> {% endcomment %}
+        <input type="text" name="lastname" id="lastname" class="form-control input-field" required placeholder="Last name"/>
+        <input type="email" name="email" id="email" class="form-control input-field" required placeholder="E-mail"/>
+        {% comment %} <input type="text" placeholder="Last Name" class="input-field" id="lastname" />
+        <input type="email" placeholder="Email" class="input-field" id="email" /> {% endcomment %}
+        <input type="password" name="password" id="password" class="form-control input-field" required placeholder="Password" />
+        {% comment %} <input type="password" placeholder="Password" class="input-field" id="password" /> {% endcomment %}
+        <input type="password" name="Confirmpassword" id="Confirmpassword" class="form-control input-field" required placeholder="Confirm password"/>
+        {% comment %} <input type="password" placeholder="Confirm Password" class="input-field" id="Confirmpassword" /> {% endcomment %}
+        <input type="text" name="phone" id="phone" class="form-control input-field" required placeholder="Phone-number"/>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        {% comment %} <button type="submit" class="signup-button">Sign Up</button> {% endcomment %}
+      </form>
+      <p class="login-link">
+        Already have an account? <a href="login.html">Log In</a>
+      </p>
+    </div>
+  </body>
+</html>
