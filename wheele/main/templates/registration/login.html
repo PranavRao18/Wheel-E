@@ -6,28 +6,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Electric Taxi Login</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
-        :root {
+        .green {
             --green: #45C952;
         }
-        body {
+
+        .bg-green-300 {
             background-color: #90fb9b;
+        }
+
+        .font-montserrat {
             font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
 
         .login-container {
             background-color: white;
             border-radius: 10px;
-            padding: 5rem 5rem 0;
+            padding: 5rem;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 400px;
@@ -36,10 +35,6 @@
         .logo {
             width: 6rem;
             margin-bottom: 2rem;
-        }
-
-        .login-container h1{
-            font-family: 'Montserrat', sans-serif;
         }
 
         .login-form {
@@ -55,48 +50,33 @@
             font-size: 1.2rem;
         }
 
-        .login-button {
-            background-color: var(--green);
-            font-family: 'Montserrat';
-            font-weight: bold;
-            color: white;
-            padding: 1rem 0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .login-button:hover {
-            transform: scale(1.05);
-        }
-
-        .footer{
+        .footer {
             margin-top: 4rem;
             margin-bottom: 0;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-green-300 font-sans flex justify-center items-center h-screen">
 
     <div class="login-container">
         <img src="{% static 'images/logo.png' %}" alt="Wheel-E Logo" class="logo">
-        <h1>Welcome back to Wheel-E</h1>
+        <h1 class="font-montserrat text-xl font-bold">Welcome back to Wheel-E</h1>
         <p>Please sign in to continue.</p>
-        <form class="login-form" method="post"> {% csrf_token %}
-            <input type="text" id="username" name="username" required class="input-field" for="username"
-                placeholder="Username" /><br />
-            <input type="password" id="password" name="password" required class="input-field" for="password"
-                placeholder="Password" /><br />
+        <form class="login-form space-y-4" method="post"> {% csrf_token %}
+            <input type="text" id="username" name="username" required class="input-field" placeholder="Username">
+            <input type="password" id="password" name="password" required class="input-field" placeholder="Password">
 
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit"
+                class="bg-green-500 hover:bg-green-600 text-white font-montserrat font-semibold py-4 px-6 rounded-md cursor-pointer transition duration-300">Login</button>
 
-            <input type="checkbox" id="remember_me" name="remember_me" class="remember-me" for="remember_me">
-            <span>Remember Me</span>
+            <div class="flex items-center mt-2">
+                <input type="checkbox" id="remember_me" name="remember_me" class="remember-me mr-2">
+                <label for="remember_me">Remember Me</label>
+            </div>
         </form>
-        <footer class="footer">
-            <p>&copy; 2023 Wheel-E. All rights reserved.</p>
+        <footer class="footer mt-16">
+            <p class="text-gray-600">&copy; 2023 Wheel-E. All rights reserved.</p>
         </footer>
     </div>
 </body>
