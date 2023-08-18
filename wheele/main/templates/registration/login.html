@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Electric Taxi Login</title>
+    <title>Wheel-E Login</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -29,7 +29,7 @@
             padding: 5rem;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 400px;
+            max-width: 400rem;
         }
 
         .logo {
@@ -48,6 +48,11 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             font-size: 1.2rem;
+            width: 20rem;
+        }
+
+        .animate:hover{
+            transform: scale(1.05);
         }
 
         .footer {
@@ -68,7 +73,7 @@
             <input type="password" id="password" name="password" required class="input-field" placeholder="Password">
 
             <button type="submit"
-                class="bg-green-500 hover:bg-green-600 text-white font-montserrat font-semibold py-4 px-6 rounded-md cursor-pointer transition duration-300">Login</button>
+                class="bg-green-500 text-white font-montserrat font-semibold py-4 px-6 rounded-md cursor-pointer animate">Login</button>
 
             <div class="flex items-center mt-2">
                 <input type="checkbox" id="remember_me" name="remember_me" class="remember-me mr-2">
