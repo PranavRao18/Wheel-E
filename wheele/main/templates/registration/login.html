@@ -1,3 +1,4 @@
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,7 +96,7 @@
 <body>
   
     <div class="login-container">
-        <img src="logo.png" alt="Electric Taxi Logo" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Electric Taxi Logo" class="logo">
         <h1>Welcome to Electric Taxi</h1>
         <p>Please sign in to continue.</p>
         <form class="login-form">
