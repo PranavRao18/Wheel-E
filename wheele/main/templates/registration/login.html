@@ -1,21 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-  </head>
-  <body>
-    <h1>Login</h1>
-    <form method="post">
-      {% csrf_token %}
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required /><br />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required /><br />
-      <label for="remember_me">Remember Me:</label>
-      <input type="checkbox" id="remember_me" name="remember_me" />
-      <button type="submit">Login</button>
-    </form>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Electric Taxi Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+    }
+    
+    .login-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+    }
+    
+    .logo {
+        width: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .input-field {
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .login-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .login-button:hover {
+        background-color: #45a049;
+    }
+    
+    .google-login {
+        display: inline-block;
+        background-color: #4285F4;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    
+    .google-login:hover {
+        background-color: #357AE8;
+    }
+    
+    .google-icon {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    
+    .forgot-password {
+        margin-top: 10px;
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .forgot-password:hover {
+        text-decoration: underline;
+    }
+    
+    </style>
+</head>
+<body>
+  
+    <div class="login-container">
+        <img src="logo.png" alt="Electric Taxi Logo" class="logo">
+        <h1>Welcome to Electric Taxi</h1>
+        <p>Please sign in to continue.</p>
+        <form class="login-form">
+      <input type="text" id="username" name="username" required class="input-field" for="username" placeholder="Username"/><br />
+      <input type="password" id="password" name="password" required class="input-field" for="password" placeholder="Password"/><br />
+      <input type="checkbox" id="remember_me" name="remember_me" class="remember-me" for="remember_me">Remember Me:</input>
+      
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <a href="#" class="google-login">
+            <img src="google-icon.png" alt="Google Icon" class="google-icon">
+            Sign in with Google
+        </a>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+        <footer class="footer">
+            <p>&copy; 2023 Electric Taxi. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
 </html>
