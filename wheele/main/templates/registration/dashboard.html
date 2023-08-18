@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <!-- Include Leaflet library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Include Leaflet Routing Machine library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
@@ -37,12 +45,12 @@
             scroll-padding-top: 4rem;
         }
 
-        body {
-            background-color: #45C952;
-        }
-
         section {
             padding: 3rem;
+        }
+
+        body{
+            background-color: #45C952 ;
         }
 
         .btn {
@@ -127,7 +135,13 @@
             cursor: pointer;
         }
 
-        .body {
+        .body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -160,29 +174,87 @@
 </head>
 
 <body>
-    <div class="content">
-        <header>
 
-            <div class="completelogo">
-                <a href="home"><img src="{% url for 'logo' %}" alt=""></a>
-                <a href="#home" class="logo">Wheel-E</a>
+        <div class="content">
+            <header>
+    
+                <div class="completelogo">
+                    <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>
+                    <a href="#home" class="logo">Wheel-E</a>    
+                </div>
+    
+                <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
+    
+            </header>
+            <div class="container">
+                <div id="map" style="height: 100vh; width: 100vw;"></div>
+            <div class="body">
+                <div class="card">
+                    <p>Hello, {{ user.username }}! Book a ride now:</p>
+                    <form method="post">
+                        <div>
+                            <label for="locationA">Location A:</label>
+                            <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
+                        </div>
+                        <div>
+                            <label for="locationB">Location B:</label>
+                            <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
+                        </div>
+                        <button type="submit" class="btn" id="showRoute"> Continue </button>
+                    </form>
+                </div>
             </div>
-
-            <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
-
-        </header>
-        <div class="body">
-            <div class="card">
-                <p>Hello, {{ user.username }}! Book a ride now:</p>
-                <form method="post">
-                    <input type="text" placeholder="Enter pickup location" class="input-field" id="pickup" required><br>
-                    <input type="text" placeholder="Enter drop location" class="input-field" id="drop" required><br>
-                    <button type="submit" class="btn"> Continue </button>
-                </form>
             </div>
         </div>
-    </div>
+
     <a href="{% url 'logout' %}">Logout</a>
+
+    <script>
+        var map = L.map('map').setView([0, 0], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var routingControl = L.Routing.control({
+            waypoints: [],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        document.getElementById('showRoute').addEventListener('click', function () {
+            var locationA = document.getElementById('locationA').value;
+            var locationB = document.getElementById('locationB').value;
+
+            if (locationA.trim() === "" || locationB.trim() === "") {
+                alert('Please enter both locations.');
+                return;
+            }
+
+            // Use OpenStreetMap Nominatim API to geocode the locations
+            Promise.all([
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
+                    .then(response => response.json())
+                    .then(data => data[0]),
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationB))
+                    .then(response => response.json())
+                    .then(data => data[0])
+            ])
+            .then(function(results) {
+                if (results[0] && results[1]) {
+                    var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
+                    var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
+
+                    routingControl.getPlan().setWaypoints([waypointA, waypointB]);
+                } else {
+                    alert('Locations not found.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while fetching data.');
+            });
+        });
+    </script>
 </body>
 
 </html>
