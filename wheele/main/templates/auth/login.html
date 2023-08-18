@@ -98,7 +98,7 @@
 
     <div class="login-container">
         <img src="{% static 'images/logo.png' %}" alt="Electric Taxi Logo" class="logo">
-        <h1>Welcome back to Wheel-E</h1>
+        <h1>Welcome back!</h1>
         <p>Please sign in to continue.</p>
         <form class="login-form" method="post"> {% csrf_token %}
             <input type="text" id="username" name="username" required class="input-field" for="username"
@@ -117,10 +117,6 @@
       {% endfor %}
     </div>
   {% endif %}
-        <a href="#" class="google-login">
-            <img src="google-icon.png" alt="Google Icon" class="google-icon">
-            Sign in with Google
-        </a>
         <footer class="footer">
             <p>&copy; 2023 Wheel-E. All rights reserved.</p>
         </footer>
