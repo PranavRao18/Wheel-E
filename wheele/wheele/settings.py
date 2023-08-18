@@ -120,6 +120,7 @@ STATIC_URL = 'static/'
 LOGIN_URL = '/login/'  # URL to redirect unauthenticated users
 LOGIN_REDIRECT_URL = '/dashboard/'  # URL to redirect after successful login
 LOGOUT_REDIRECT_URL = '/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main', 'static')] 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
