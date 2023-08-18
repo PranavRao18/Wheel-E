@@ -1,22 +1,23 @@
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wheel-E</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wheel-E</title>
 
-    <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
+        <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
             --green: #45C952;
         }
 
+        /* ... (Existing CSS code) ... */
         * {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
@@ -74,6 +75,7 @@
             margin: 0 5rem 5rem;
             background-color: #fff;
         }
+
         header .logo {
             font-weight: bolder;
             color: #000;
@@ -148,71 +150,31 @@
             padding: 3rem 0;
         }
 
+        .about {
+            min-height: 100vh;
+        }
 
-        /* .features .box-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+        .about .content {
+            padding-top: 20rem;
+            max-width: 70rem;
+            margin: 0 10%;
+        }
 
-.features .box-container .box{
-  margin:1rem;
-  border-radius: .5rem;
-  text-align: center;
-  background:rgba(237, 23, 111,.05);
-  padding:1rem;
-  flex:1 1 30rem;
-  cursor: pointer;
-}
+        .about .content h3 {
+            margin-top: 2rem;
+            font-size: 6.5rem;
+            color: #000;
+        }
 
-.features .box-container .box i{
-  color:var(--red);
-  font-size: 5rem;
-  padding:1rem;
-}
+        .about .content p {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2rem;
+            color: #000;
+            padding: 3rem 0;
+        }
 
-.features .box-container .box h3{
-  color:var(--black);
-  font-size: 2.4rem;
-}
-
-.features .box-container .box p{
-  color:#666;
-  font-size: 1.5rem;
-  padding:1rem;
-}
-
-.features .box-container .box:hover{
-  background:var(--gradient);
-}
-
-.features .box-container .box:hover > *{
-  color:#fff;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /* media queries */
-
+        /* ... (Existing media queries) ... */
+        
         @media (max-width:991px) {
 
             html {
@@ -289,92 +251,51 @@
             }
 
         }
+
     </style>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <!-- header section starts  -->
+        <header>
+            <div class="completelogo">
+                <a href="home"><img src="{% url for 'logo' %}" alt></a>
+                <a href="#home" class="logo">Wheel-E</a>
+            </div>
+            <div id="menu-bar" class="fas fa-bars"></div>
+            <nav class="navbar">
+                <a href="#home">home</a>
+                <a href="#services">services</a>
+                <a href="#about">about us</a>
+                <a href="#join">join as driver</a>
+                <a href="{% url 'login' %}" class="btn">LOG IN</a>
+            </nav>
+        </header>
 
-    <header>
+        <section class="about" id="about">
+            <div class="content">
+                <h3>About Us</h3>
+                <p>Welcome to Wheel-E,where innovation meets sustainable
+                    transportation. We are a trailblazing electric taxi service
+                    committed to revolutionizing the way you travel, while also
+                    reducing our carbon footprint and contributing to a cleaner
+                    environment.</p>
+            </div>
 
-        <div class="completelogo">
-            <a href="home"><img src="{% url for 'logo' %}" alt=""></a>
-            <a href="#home" class="logo">Wheel-E</a>
-        </div>
+            <div class="content">
+                <h3>Our Mission</h3>
+                <p>
+                    At Wheel-E, our mission is to
+                    provide a convenient, reliable, and eco-friendly mode of
+                    transportation that doesn't compromise on quality or
+                    comfort. We aim to lead the transition towards emission-free
+                    urban mobility by offering state-of-the-art electric
+                    vehicles for taxi services.</p>
+            </div>
+        </section>
 
-        <div id="menu-bar" class="fas fa-bars"></div>
-
-        <nav class="navbar">
-            <a href="#home">home</a>
-            <a href="#services">services</a>
-            <a href="#about">about us</a>
-            <a href="#join">join as driver</a>
-            <a href="{% url 'login' %}" class="btn">LOG IN</a>
-        </nav>
-
-    </header>
-
-    <!-- header section ends -->
-
-    <!-- home section starts  -->
-
-    <section class="home" id="home">
-
-        <div class="content">
-            <h3>Find the best<br>Taxi Ride.</h3>
-            <p>Introducing Wheel-E: Experience eco-friendly rides with our electric taxi fleet. Swift, sustainable, and
-                powered for a greener future.</p>
-            <a href="{% url 'signup' %}" class="btn">RIDE NOW</a>
-        </div>
-
-    </section>
-
-    <!-- <section class="features" id="features">
-
-    <h1 class="heading">app features</h1>
-
-    <div class="box-container">
-
-        <div class="box">
-            <i class="fas fa-magic"></i>
-            <h3>smooth design</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-shield-alt"></i>
-            <h3>privacy protect</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-globe"></i>
-            <h3>multiple language</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-map-marker-alt"></i>
-            <h3>location tracking</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-cogs"></i>
-            <h3>powerfull settings</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-        <div class="box">
-            <i class="fas fa-headset"></i>
-            <h3>24 x 7 service</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque enim ad neque. Voluptatem alias beatae accusamus laudantium nisi assumenda libero.</p>
-        </div>
-
-    </div>
-
-</section> -->
-
-
-    <script>
-
+        <script>
         let menu = document.querySelector('#menu-bar');
         let navbar = document.querySelector('.navbar');
 
@@ -387,10 +308,8 @@
             menu.classList.remove('fa-times');
             navbar.classList.remove('nav-toggle');
         }
-
     </script>
 
-
-</body>
+    </body>
 
 </html>
