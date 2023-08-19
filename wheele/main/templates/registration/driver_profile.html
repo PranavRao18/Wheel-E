@@ -106,6 +106,31 @@
         .btn:hover {
             transform: scale(1.05);
         }
+        .dropdown {
+            margin-top: 0.5rem;
+            width: 20rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            display: block;
+            appearance: none; /* Remove default arrow icon */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"><path d="M0 2l4 4 4-4z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+
+        /* Style the dropdown options */
+        .dropdown option {
+            padding: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +153,13 @@
                     <input type="checkbox" id="vaccinated" checked disabled>
                     <label class="checkbox-label" for="vaccinated">Vaccinated</label>
                 </div>
+                <label class="vehicle-label" for="vehicle">Select Vehicle Type:</label>
+            <select class="dropdown" id="vehicle">
+                <option value="scooty">Bike</option>
+                <option value="auto">Auto</option>
+                <option value="mini">Mini</option>
+                <option value="sedan">Sedan</option>
+            </select>
                 <button class="btn" onclick="logout()">Logout</button>
             </div>
         </div>
