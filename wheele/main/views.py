@@ -5,7 +5,6 @@ from accountConfig.models import User
 import json
 from main.models import Offers
 from django.db.models import F, FloatField
-from math import radians,  sin, cos
 import uuid
 
 
@@ -19,7 +18,7 @@ def dashboard_view(request):
     if user.is_driver:
         print("Hello driver")
         offers = Offers.objects.filter(is_active = True, is_accepted = False)
-        profile = [{'price': obj.final_price, 'distance': obj.distance,'lat':obj.fromCoordinatesLat,'lon':obj.fromCoordinatesLong} for obj in offers]
+        profile = [{'price': obj.final_price, 'distance': obj.distance,'lat':obj.fromCoordinatesLat,'lon':obj.fromCoordinatesLong,'requestId':obj.request_id} for obj in offers]
         return render(request, 'registration/driver_dashboard.html', {'profile':{'first_name':firstname,'id':id},'items': profile})
     return render(request, 'registration/dashboard.html', {'profile': profile})
 
@@ -31,6 +30,17 @@ def landing_view(request):
 def about_us(request):
     return render(request, "about_us.html")
 
+@login_required
+def load(request):
+    return render(request,'registration/loading.html')
+
+@login_required
+def user_profile(request):
+    user = User.objects.get(email=request.user)
+    full_name = user.username
+    email = user.email
+    phone = user.phone_number
+    return render(request,"registration/user_profile.html",{'profile':{'first_name':full_name,'email':email,'phone':phone}})
 
 def handle_request(request):
     if request.method == 'POST':
@@ -45,10 +55,10 @@ def handle_request(request):
                 mini = "30"
                 sedan = "30"
             if distance > 2:
-                scooter = str((float(distance)-2)*7)
-                auto = str((float(distance)-2)*10)
-                mini = str((float(distance)-2)*13)
-                sedan = str((float(distance)-2)*15)
+                scooter = round((float(distance)-2)*7,2)
+                auto = round((float(distance)-2)*10,2)
+                mini = round((float(distance)-2)*13,2)
+                sedan = round((float(distance)-2)*15,2)
             if distance is not None:
                 # Save the distance to the database
                 random_uuid = uuid.uuid4()
@@ -57,10 +67,16 @@ def handle_request(request):
                 return JsonResponse({'message': 'Distance data saved successfully.', "data": {"scooter": scooter, "auto": auto, "mini": mini, "sedan": sedan,"requestId":random_uuid}})
 
         if data.get('type') == 'book':
-            offer = Offers.objects.get(requestId=data.get('requestId'))
+            offer = Offers.objects.get(request_id=data.get('requestId'))
             offer.final_price = data.get('price')
             offer.is_active = True
             offer.user_id = data.get('user_id')
+            offer.save()
+            return JsonResponse({'message': 'Success.'})
+        
+        if data.get('type') == 'accept':
+            offer = Offers.objects.get(request_id=data.get('requestId'))
+            offer.is_accepted = True
             offer.save()
             return JsonResponse({'message': 'Success.'})
 

@@ -21,6 +21,32 @@
         :root {
             --green: #45C952;
         }
+        /* Define the styles for the scrollbar track */
+        ::-webkit-scrollbar {
+            width: 12px; /* Width of the scrollbar */
+        }
+
+        /* Define the styles for the scrollbar thumb (the draggable part) */
+        ::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Rounded corners for the thumb */
+        }
+
+        /* Define the styles for the scrollbar track on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scrollbar thumb on hover */
+        }
+
+        /* Define the styles for the scrollbar track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of the scrollbar track */
+        }
+
+        /* Define the styles for the scrollbar track on hover */
+        ::-webkit-scrollbar-track:hover {
+            background: #ccc; /* Color of the scrollbar track on hover */
+        }
+
 
         * {
             font-family: 'Montserrat', sans-serif;
@@ -247,7 +273,7 @@
                 <!-- <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a> -->
                 <a href="#home" class="logo">Wheel-E</a>
             </div>
-            <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
+            <a href="{% url 'userprofile' %}"><i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i></a>
         </header>
         <div class="container">
             <div id="map" style="height: 100vh; width: 100vw;"></div>
@@ -267,7 +293,7 @@
                     </div>
                 </div>
                 <div class="container2 hidden">
-                    <div class="card">
+                    <div class="card" id="scooter-card">
                         <table>
                             <tr>
                                 <td><img src="{% static 'images/bikebg.jpg' %}" alt=""></td>
@@ -280,7 +306,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="card">
+                    <div class="card" id="auto-card">
                         <table class="autotable">
                             <tr>
                                 <td><img src="{% static 'images/autonobg2.png' %}" alt=""></td>
@@ -293,7 +319,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="card">
+                    <div class="card" id="mini-card">
                         <table>
                             <tr>
                                 <td><img src="{% static 'images/hatchnobg.png' %}" alt=""></td>
@@ -306,7 +332,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="card">
+                    <div class="card" id="sedan-card">
                         <table>
                             <tr>
                                 <td> <img src="{% static 'images/sedannobg.png' %}" alt=""></td>
@@ -347,7 +373,8 @@
                 alert('Please enter both locations.');
                 return;
             }
-
+             
+            let requestId;
             // Use OpenStreetMap Nominatim API to geocode the locations
             Promise.all([
                 fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
@@ -395,34 +422,36 @@
                     alert('An error occurred while fetching data.');
                 });
         });
-        function submitPrice(vehicleType, price) {
+        function submitPrice(price) {
             // Create a payload object with the data to be sent to the server
             const payload = {
                 type: 'book',
                 requestId: requestId, // Replace with the actual requestId
-                user_id: profile.user_id, // Replace with the actual user_id
+                user_id: {{profile.user_id}}, // Replace with the actual user_id
                 price: price
             };
         
             // Send a POST request to the server with the payload
-            fetch('/api/', {
+            fetch('/api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
                 body: JSON.stringify(payload),
             })
             .then(response => {
                 if (response.status === 200) {
-                    alert('Price submitted successfully.');
+                    window.location.href = '/loading' ;
                 } else {
-                    alert('Failed to submit price.');
+                    alert('Failed to Book price.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
         }
+        
 
         function sendDistanceToDjango(coordinates) {
             // Send the coordinates and distance to a Django view using an HTTP POST request
@@ -446,7 +475,7 @@
                 })
                 .then(data => {
                     if (data) {
-                        var requestId = data.data.requestId
+                         requestId = data.data.requestId
                         // Populate the Scooter card
                         console.log(requestId)
                         const scooterCard = document.getElementById('scooter-card');
@@ -458,7 +487,8 @@
                                         <h3>E-Bike</h3>
                                         <h3>Rs. ${data.data.scooter}</h3>
                                         <p>E-bike for 1 passenger.</p>
-                                        <button type="submit" class="btn">Book</button>
+                                        <button type="button" class="btn book-button" onclick="submitPrice(${data.data.scooter})">Book</button>
+
                                     </td>
                                 </tr>
                             </table>
@@ -474,7 +504,8 @@
                                         <h3>E-Auto</h3>
                                         <h3>Rs. ${data.data.auto}</h3>
                                         <p>Electric-Auto for upto 3 passengers. </p>
-                                        <button type="submit" class="btn">Book</button>
+                                        <button type="button" class="btn book-button" onclick="submitPrice(${data.data.auto})">Book</button>
+
                                     </td>
                                 </tr>
                             </table>
@@ -490,7 +521,8 @@
                                         <h3>E-Mini</h3>
                                         <h3>Rs. ${data.data.mini}</h3>
                                         <p>E-Mini for upto 4 passengers.</p>
-                                        <button type="submit" class="btn">Book</button>
+                                        <button type="button" class="btn book-button" onclick="submitPrice(${data.data.mini})">Book</button>
+
                                     </td>
                                 </tr>
                             </table>
@@ -506,7 +538,8 @@
                                         <h3>E-Sedan</h3>
                                         <h3>Rs. ${data.data.sedan}</h3>
                                         <p>E-Sedan for upto 4 passengers.</p>
-                                        <button type="submit" class="btn">Book</button>
+                                        <button type="button" class="btn book-button" onclick="submitPrice(${data.data.sedan})">Book</button>
+
                                     </td>
                                 </tr>
                             </table>

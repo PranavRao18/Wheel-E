@@ -129,15 +129,39 @@
         <h2>Customer Request #{{ forloop.counter }}</h2>
         <p>Amount: {{ item.price }}</p>
         <p>Distance: {{ item.distance }}</p>
-        <button class="btn accept-btn" onclick="viewMap({{ item.lat }}, {{ item.lon }})">Accept</button>
+        <button class="btn accept-btn" onclick="viewMap({{ item.lat }}, {{ item.lon }},{{ item.request_id }})">Accept</button>
     </div>
 {% endfor %}
     </div>
 
 
     <script>
-        function viewMap(latitude, longitude) {
+        function viewMap(latitude, longitude,requestId) {
             // Construct the Google Maps URL with the provided latitude and longitude
+            const payload = {
+                type: 'accept',
+                requestId: requestId, // Replace with the actual requestId
+            };
+        
+            // Send a POST request to the server with the payload
+            fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    window.location.href = '/loading' ;
+                } else {
+                    alert('Book');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
             const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
             
             // Redirect the user to the Google Maps URL
@@ -145,7 +169,22 @@
         }
         function acceptRequest(requestNumber) {
             alert('Accepted Customer Request #' + requestNumber);
-            // Perform any additional actions here, such as marking the request as accepted in the backend.
+            
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
                         
     </script>

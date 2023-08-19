@@ -268,14 +268,13 @@
 
         <header>
             <div class="completelogo">
-                <a href="home"><img src="{% url for 'logo' %}" alt></a>
-                <a href="#home" class="logo">Wheel-E</a>
+                <a href="home"><img src="{% static 'images/icon.png' %}" style="width: 100px;"></a>
             </div>
             <div id="menu-bar" class="fas fa-bars"></div>
             <nav class="navbar">
-                <a href="#home">home</a>
+                <a href="{% url 'home' %}">home</a>
                 <a href="#services">services</a>
-                <a href="#about">about us</a>
+                <a href="{% url 'aboutus' %}">about us</a>
                 <a href="#join">join as driver</a>
                 <a href="{% url 'login' %}" class="btn">LOG IN</a>
             </nav>
