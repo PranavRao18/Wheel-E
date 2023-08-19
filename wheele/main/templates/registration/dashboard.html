@@ -9,11 +9,12 @@
     <!-- Include Leaflet library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    
+
     <!-- Include Leaflet Routing Machine library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="{% static 'images/favicon-16x16.png' %}" type="image/x-icon">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -45,12 +46,8 @@
             scroll-padding-top: 4rem;
         }
 
-        section {
-            padding: 3rem;
-        }
-
-        body{
-            background-color: #45C952 ;
+        body {
+            background-color: #45C952;
         }
 
         .btn {
@@ -135,19 +132,19 @@
             cursor: pointer;
         }
 
-        .body{
+        .body {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .container{
+        .container {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .card {
+        .container1 .card {
             background-color: white;
             max-width: 500px;
             min-width: 400px;
@@ -156,19 +153,88 @@
             border-radius: 25px;
         }
 
-        .card p {
+        .container1 .card p {
             margin-top: 2rem;
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 2rem;
         }
 
-        .card .input-field {
+        .container1 .card .input-field {
             border: 1px solid #000;
             border-radius: 10px;
             margin: 2rem auto;
             padding: 1.5rem 2rem;
             width: 100%;
+        }
+
+        .container2 .card {
+            background-color: #fff;
+            width: 90vh;
+            max-width: 60rem;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .container2 .card img {
+            width: 40%;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .container2 .card h3 {
+            font-size: 2rem;
+            margin: 0.5rem;
+        }
+
+        .container2 .card p {
+            font-size: 1.2rem;
+            margin: 0.5rem;
+        }
+
+        .container .btn {
+            width: 40%;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 0;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                height: 50vh;
+                /* Half of the viewport height */
+                position: relative;
+                top: 50%;
+                /* Shift container down by 50% of the viewport height */
+                transform: translateY(50%);
+                /* Adjust to center vertically */
+            }
+
+            .card {
+                max-width: 90%;
+                margin: 2rem;
+                padding: 2rem;
+            }
+
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        td:nth-child(1) {
+            width: 60%;
+            /* Adjust the width as needed */
         }
     </style>
 </head>
@@ -177,53 +243,110 @@
     <div class="content">
         <header>
             <div class="completelogo">
-                <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>
-                <a href="#home" class="logo">Wheel-E</a>    
+                <!-- <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a> -->
+                <a href="#home" class="logo">Wheel-E</a>
             </div>
             <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
         </header>
         <div class="container">
             <div id="map" style="height: 100vh; width: 100vw;"></div>
             <div class="body">
-                <div class="card">
-                    <p>Hello, {{ profile.first_name }}! Book a ride now:</p>
-                    <div>
-                        <label for="locationA">Location A:</label>
-                        <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
+                <div class="container1">
+                    <div class="card">
+                        <p>Hello, {{ profile.first_name }}! Book a ride now:</p>
+                        <div>
+                            <label for="locationA">Location A:</label>
+                            <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
+                        </div>
+                        <div>
+                            <label for="locationB">Location B:</label>
+                            <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
+                        </div>
+                        <button class="btn" id="showRoute"> Continue </button>
                     </div>
-                    <div>
-                        <label for="locationB">Location B:</label>
-                        <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
+                </div>
+                <div class="container2 hidden">
+                    <div class="card">
+                        <table>
+                            <tr>
+                                <td><img src="{% static 'images/bikebg.jpg' %}" alt=""></td>
+                                <td>
+                                    <h3>E-Bike</h3>
+                                    <h3>Rs. </h3>
+                                    <p>E-bike for 1 passenger.</p>
+                                    <button type="submit" class="btn">Book</button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <button class="btn" id="showRoute"> Continue </button>
+                    <div class="card">
+                        <table class="autotable">
+                            <tr>
+                                <td><img src="{% static 'images/autonobg2.png' %}" alt=""></td>
+                                <td>
+                                    <h3>E-Auto</h3>
+                                    <h3>Rs. </h3>
+                                    <p>Electric-Auto for upto 3 passengers. </p>
+                                    <button type="submit" class="btn">Book</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <table>
+                            <tr>
+                                <td><img src="{% static 'images/hatchnobg.png' %}" alt=""></td>
+                                <td>
+                                    <h3>E-Mini</h3>
+                                    <h3>Rs. </h3>
+                                    <p>E-Mini for upto 4 passengers.</p>
+                                    <button type="submit" class="btn">Book</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <table>
+                            <tr>
+                                <td> <img src="{% static 'images/sedannobg.png' %}" alt=""></td>
+                                <td>
+                                    <h3>E-Sedan</h3>
+                                    <h3>Rs. </h3>
+                                    <p>E-Sedan for upto 4 passengers.</p>
+                                    <button type="submit" class="btn">Book</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+    </div>
+
     <a href="{% url 'logout' %}">Logout</a>
 
     <script>
         var map = L.map('map').setView([12.971599, 77.594566], 11)
-    
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-    
+
         var routingControl = L.Routing.control({
             waypoints: [],
             routeWhileDragging: true
         }).addTo(map);
-    
+
         document.getElementById('showRoute').addEventListener('click', function () {
             var locationA = document.getElementById('locationA').value;
             var locationB = document.getElementById('locationB').value;
-    
+
             if (locationA.trim() === "" || locationB.trim() === "") {
                 alert('Please enter both locations.');
                 return;
             }
-    
+
             // Use OpenStreetMap Nominatim API to geocode the locations
             Promise.all([
                 fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
@@ -233,45 +356,45 @@
                     .then(response => response.json())
                     .then(data => data[0])
             ])
-            .then(function(results) {
-                if (results[0] && results[1]) {
-                    var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
-                    var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
-                    routingControl.getPlan().setWaypoints([waypointA, waypointB]);
-                    routingControl.on('routesfound', function(e) {
-                        var routes = e.routes;
-                        if (routes.length > 0) {
-                            
-                            var totalDistance = routes[0].summary.totalDistance; // Distance in meters
-                            
-                            // You can convert meters to other units if needed
-                            var totalDistanceInKilometers = totalDistance / 1000; // Distance in kilometers
-                            console.log('Total Distance: ' + totalDistanceInKilometers + ' kilometers');
-                            var coordinates = {
-                            type:"coordinates",
-                            latA: waypointA.lat,
-                            lonA: waypointA.lng,
-                            latB: waypointB.lat,
-                            lonB: waypointB.lng,
-                            distance: totalDistanceInKilometers
-                        };
-                        
-                        sendDistanceToDjango(coordinates);
-                        } else {
-                            console.log('No routes found.');
-                        }
-                    });
-                    // Calculate the distance using Leaflet Routing Machine
-                } else {
-                    alert('Locations not found.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while fetching data.');
-            });
+                .then(function (results) {
+                    if (results[0] && results[1]) {
+                        var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
+                        var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
+                        routingControl.getPlan().setWaypoints([waypointA, waypointB]);
+                        routingControl.on('routesfound', function (e) {
+                            var routes = e.routes;
+                            if (routes.length > 0) {
+
+                                var totalDistance = routes[0].summary.totalDistance; // Distance in meters
+
+                                // You can convert meters to other units if needed
+                                var totalDistanceInKilometers = totalDistance / 1000; // Distance in kilometers
+                                console.log('Total Distance: ' + totalDistanceInKilometers + ' kilometers');
+                                var coordinates = {
+                                    type: "coordinates",
+                                    latA: waypointA.lat,
+                                    lonA: waypointA.lng,
+                                    latB: waypointB.lat,
+                                    lonB: waypointB.lng,
+                                    distance: totalDistanceInKilometers
+                                };
+
+                                sendDistanceToDjango(coordinates);
+                            } else {
+                                console.log('No routes found.');
+                            }
+                        });
+                        // Calculate the distance using Leaflet Routing Machine
+                    } else {
+                        alert('Locations not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching data.');
+                });
         });
-    
+
         function sendDistanceToDjango(coordinates) {
             // Send the coordinates and distance to a Django view using an HTTP POST request
             fetch('/api', {
@@ -282,19 +405,21 @@
                 },
                 body: JSON.stringify(coordinates)
             })
-            .then(response => {
-                if (response.status === 200) {
-                    alert('Data sent to Django server successfully.');
-                } else {
-                    alert('Failed to send data to Django server.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while sending data to Django.');
-            });
+                .then(response => {
+                    if (response.status === 200) {
+                        document.querySelector('.container2').classList.remove('hidden');
+                        document.querySelector('.container1').classList.toggle('hidden');
+                        alert('Data sent to Django server successfully.');
+                    } else {
+                        alert('Failed to send data to Django server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending data to Django.');
+                });
         }
-    
+
         // Function to get CSRF token from cookies
         function getCookie(name) {
             var cookieValue = null;
