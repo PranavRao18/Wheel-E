@@ -6,7 +6,7 @@ __pycache__/
 *.pyd
 
 # Database
-*.sqlite3
+*.db.sqlite3
 *.db
 
 # Static files (collected assets)
