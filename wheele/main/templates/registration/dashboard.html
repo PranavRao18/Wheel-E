@@ -9,7 +9,7 @@
     <!-- Include Leaflet library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    
+
     <!-- Include Leaflet Routing Machine library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
@@ -49,8 +49,8 @@
             padding: 3rem;
         }
 
-        body{
-            background-color: #45C952 ;
+        body {
+            background-color: #45C952;
         }
 
         .btn {
@@ -135,19 +135,21 @@
             cursor: pointer;
         }
 
-        .body{
+        .body {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
-        .container{
+        .container {
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-y: hidden;
         }
 
-        .card {
+        .container1 .card {
             background-color: white;
             max-width: 500px;
             min-width: 400px;
@@ -156,14 +158,14 @@
             border-radius: 25px;
         }
 
-        .card p {
+        .container1 .card p {
             margin-top: 2rem;
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 2rem;
         }
 
-        .card .input-field {
+        .container1 .card .input-field {
             border: 1px solid #000;
             border-radius: 10px;
             margin: 2rem auto;
@@ -171,52 +173,90 @@
             width: 100%;
         }
 
-        @media (max-width: 768px) {
-        .content {
-            padding: 1rem;
-        }
-
-        header {
-            padding: 2rem 0;
-        }
-
-        .container {
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 50vh; /* Half of the viewport height */
-            position: relative;
-            top: 50%; /* Shift container down by 50% of the viewport height */
-            transform: translateY(50%); /* Adjust to center vertically */
-        }
-
-        .card {
-            max-width: 90%;
+        .container2 .card {
+            background-color: #fff;
+            width: 90vh;
+            max-width: 60rem;
             margin: 2rem;
             padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
         }
-    }
+
+        .container2 .card img {
+            width: 40%;
+            margin: 0 auto;
+        }
+
+        .container2 .card h3 {
+            font-size: 2rem;
+            margin: 0.5rem;
+        }
+
+        .container2 .card p {
+            font-size: 1.2rem;
+            margin: 0.5rem;
+        }
+
+        .container .btn{
+            width: 40%;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 0;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                height: 50vh;
+                /* Half of the viewport height */
+                position: relative;
+                top: 50%;
+                /* Shift container down by 50% of the viewport height */
+                transform: translateY(50%);
+                /* Adjust to center vertically */
+            }
+
+            .card {
+                max-width: 90%;
+                margin: 2rem;
+                padding: 2rem;
+            }
+
+        }
+
+        .hidden{
+                display: none;
+            }
     </style>
 </head>
 
 <body>
 
-        <div class="content">
-            <header>
-    
-                <div class="completelogo">
-                    <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>
-                    <a href="#home" class="logo">Wheel-E</a>    
-                </div>
-    
-                <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
-    
-            </header>
-            <div class="container">
-                <div id="map" style="height: 100vh; width: 100vw;"></div>
+    <div class="content">
+        <header>
+
+            <div class="completelogo">
+                <!-- <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a> -->
+                <a href="#home" class="logo">Wheel-E</a>
+            </div>
+
+            <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
+
+        </header>
+        <div class="container">
+            <div id="map" style="height: 100vh; width: 100vw;"></div>
             <div class="body">
-                <div class="card">
-                    <p>Hello, {{ user.first_name }}! Book a ride now:</p>
+                <div class="container1">
+                    <div class="card">
+                        <p>Hello, {{ user.first_name }}! Book a ride now:</p>
 
                         <div>
                             <label for="locationA">Location A:</label>
@@ -227,11 +267,42 @@
                             <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
                         </div>
                         <button class="btn" id="showRoute"> Continue </button>
-                    
+
+                    </div>
+                </div>
+                <div class="container2 hidden">
+                    <div class="card">
+                        <img src="{% static 'images/bikebg.jpg' %}" alt="">
+                        <h3>Electric Bike</h3>
+                        <h3>Rs. </h3>
+                        <p>Book an electric bike, for a single passenger. Cheap and Fast option.</p>
+                        <button type="submit" class="btn">Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="{% static 'images/autonobg2.png' %}" alt="">
+                        <h3>Electric Auto</h3>
+                        <h3>Rs. </h3>
+                        <p>Book an electric auto, for a 2-3 passengers. We provide you with top-quality drivers.</p>
+                        <button type="submit" class="btn">Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="{% static 'images/hatchnobg.png' %}" alt="">
+                        <h3>Electric Mini</h3>
+                        <h3>Rs. </h3>
+                        <p>Book an electric mini, for upto 4 passengers. Travel with comfort.</p>
+                        <button type="submit" class="btn">Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="{% static 'images/sedannobg.png' %}" alt="">
+                        <h3>Electric Sedan</h3>
+                        <h3>Rs. </h3>
+                        <p>Book an electric sedan if you are travelling with lugguage. Travel with Luxury.</p>
+                        <button type="submit" class="btn">Book</button>
+                    </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
     <a href="{% url 'logout' %}">Logout</a>
 
@@ -265,20 +336,22 @@
                     .then(response => response.json())
                     .then(data => data[0])
             ])
-            .then(function(results) {
-                if (results[0] && results[1]) {
-                    var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
-                    var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
+                .then(function (results) {
+                    if (results[0] && results[1]) {
+                        var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
+                        var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
 
-                    routingControl.getPlan().setWaypoints([waypointA, waypointB]);
-                } else {
-                    alert('Locations not found.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while fetching data.');
-            });
+                        routingControl.getPlan().setWaypoints([waypointA, waypointB]);
+                    } else {
+                        alert('Locations not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching data.');
+                });
+                document.querySelector('.container2').classList.remove('hidden');
+                document.querySelector('.container1').classList.toggle('hidden');
         });
     </script>
 </body>
