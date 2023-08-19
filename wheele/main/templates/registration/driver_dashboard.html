@@ -128,57 +128,24 @@
         <h2>Customer Request #{{ forloop.counter }}</h2>
         <p>Amount: {{ item.price }}</p>
         <p>Distance: {{ item.distance }}</p>
-        <button class="btn accept-btn" onclick="acceptRequest({{ forloop.counter }})">Accept</button>
+        <button class="btn accept-btn" onclick="viewMap({{ item.lat }}, {{ item.lon }})">Accept</button>
     </div>
 {% endfor %}
     </div>
 
 
     <script>
+        function viewMap(latitude, longitude) {
+            // Construct the Google Maps URL with the provided latitude and longitude
+            const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            
+            // Redirect the user to the Google Maps URL
+            window.location.href = googleMapsUrl;
+        }
         function acceptRequest(requestNumber) {
             alert('Accepted Customer Request #' + requestNumber);
             // Perform any additional actions here, such as marking the request as accepted in the backend.
         }
-        document.getElementById('showRoute').addEventListener('click', function () {
-            var locationA = document.getElementById('locationA').value;
-
-            // Use OpenStreetMap Nominatim API to geocode the locations
-            Promise.all([
-                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
-                    .then(response => response.json())
-                    .then(data => data[0])])
-                .then(function(results) {
-                            var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
-                            var coordinates = {
-                                type:"get-offers",
-                                latA: waypointA.lat,
-                                lonA: waypointA.lng,
-                            };
-                            sendDistanceToDjango(coordinates);});
-                        
-                            function sendDistanceToDjango(coordinates) {
-                                // Send the coordinates and distance to a Django view using an HTTP POST request
-                                fetch('/api', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
-                                    },
-                                    body: JSON.stringify(coordinates)
-                                })
-                                .then(response => {
-                                    if (response.status === 200) {
-                                        
-                                        alert('Data sent to Django server successfully.');
-                                    } else {
-                                        alert('Failed to send data to Django server.');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    alert('An error occurred while sending data to Django.');
-                                });
-                            }
                         
     </script>
 </body>

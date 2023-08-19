@@ -328,7 +328,7 @@
 
     <script>
         var map = L.map('map').setView([12.971599, 77.594566], 11)
-
+        var user_id = {{ profile.user_id }};
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -394,6 +394,34 @@
                     alert('An error occurred while fetching data.');
                 });
         });
+        function submitPrice(vehicleType, price) {
+            // Create a payload object with the data to be sent to the server
+            const payload = {
+                type: 'book',
+                requestId: requestId, // Replace with the actual requestId
+                user_id: profile.user_id, // Replace with the actual user_id
+                price: price
+            };
+        
+            // Send a POST request to the server with the payload
+            fetch('/api/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    alert('Price submitted successfully.');
+                } else {
+                    alert('Failed to submit price.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
 
         function sendDistanceToDjango(coordinates) {
             // Send the coordinates and distance to a Django view using an HTTP POST request
@@ -409,15 +437,85 @@
                     if (response.status === 200) {
                         document.querySelector('.container2').classList.remove('hidden');
                         document.querySelector('.container1').classList.toggle('hidden');
-                        alert('Data sent to Django server successfully.');
+                        return response.json();
+                        alert('Data sent to server successfully.');
                     } else {
                         alert('Failed to send data to Django server.');
                     }
                 })
+                .then(data => {
+                    if (data) {
+                        var requestId = data.data.requestId
+                        // Populate the Scooter card
+                        console.log(requestId)
+                        const scooterCard = document.getElementById('scooter-card');
+                        scooterCard.innerHTML = `
+                            <table>
+                                <tr>
+                                    <td><img src="{% static 'images/bikebg.jpg' %}" alt=""></td>
+                                    <td>
+                                        <h3>E-Bike</h3>
+                                        <h3>Rs. ${data.data.scooter}</h3>
+                                        <p>E-bike for 1 passenger.</p>
+                                        <button type="submit" class="btn">Book</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        `;
+                
+                        // Populate the Auto card
+                        const autoCard = document.getElementById('auto-card');
+                        autoCard.innerHTML = `
+                            <table class="autotable">
+                                <tr>
+                                    <td><img src="{% static 'images/autonobg2.png' %}" alt=""></td>
+                                    <td>
+                                        <h3>E-Auto</h3>
+                                        <h3>Rs. ${data.data.auto}</h3>
+                                        <p>Electric-Auto for upto 3 passengers. </p>
+                                        <button type="submit" class="btn">Book</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        `;
+                
+                        // Populate the Mini card
+                        const miniCard = document.getElementById('mini-card');
+                        miniCard.innerHTML = `
+                            <table>
+                                <tr>
+                                    <td><img src="{% static 'images/hatchnobg.png' %}" alt=""></td>
+                                    <td>
+                                        <h3>E-Mini</h3>
+                                        <h3>Rs. ${data.data.mini}</h3>
+                                        <p>E-Mini for upto 4 passengers.</p>
+                                        <button type="submit" class="btn">Book</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        `;
+                
+                        // Populate the Sedan card
+                        const sedanCard = document.getElementById('sedan-card');
+                        sedanCard.innerHTML = `
+                            <table>
+                                <tr>
+                                    <td><img src="{% static 'images/sedannobg.png' %}" alt=""></td>
+                                    <td>
+                                        <h3>E-Sedan</h3>
+                                        <h3>Rs. ${data.data.sedan}</h3>
+                                        <p>E-Sedan for upto 4 passengers.</p>
+                                        <button type="submit" class="btn">Book</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        `;
+                    }
+                })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while sending data to Django.');
                 });
+                
         }
 
         // Function to get CSRF token from cookies

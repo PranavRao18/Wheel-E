@@ -6,6 +6,7 @@ import json
 from main.models import Offers
 from django.db.models import F, FloatField
 from math import radians,  sin, cos
+import uuid
 
 
 @login_required
@@ -13,12 +14,13 @@ def dashboard_view(request):
 
     user = User.objects.get(email=request.user)
     firstname = user.first_name
-    profile = {"first_name": firstname}
+    id = user.id
+    profile = {"first_name": firstname,'user_id':id}
     if user.is_driver:
         print("Hello driver")
         offers = Offers.objects.filter(is_active = True, is_accepted = False)
-        profile = [{'price': obj.final_price, 'distance': obj.distance} for obj in offers]
-        return render(request, 'registration/driver_dashboard.html', {'profile':{'first_name':firstname},'items': profile})
+        profile = [{'price': obj.final_price, 'distance': obj.distance,'lat':obj.fromCoordinatesLat,'lon':obj.fromCoordinatesLong} for obj in offers]
+        return render(request, 'registration/driver_dashboard.html', {'profile':{'first_name':firstname,'id':id},'items': profile})
     return render(request, 'registration/dashboard.html', {'profile': profile})
 
 
@@ -49,12 +51,14 @@ def handle_request(request):
                 sedan = str((float(distance)-2)*15)
             if distance is not None:
                 # Save the distance to the database
+                random_uuid = uuid.uuid4()
                 Offers.objects.create(
-                    distance=distance, fromCoordinatesLat=latA, fromCoordinatesLong=lonA)
-                return JsonResponse({'message': 'Distance data saved successfully.', "data": {"scooter": scooter, "auto": auto, "mini": mini, "sedan": sedan}})
+                    distance=distance, fromCoordinatesLat=latA, fromCoordinatesLong=lonA, request_id = random_uuid)
+                return JsonResponse({'message': 'Distance data saved successfully.', "data": {"scooter": scooter, "auto": auto, "mini": mini, "sedan": sedan,"requestId":random_uuid}})
 
         if data.get('type') == 'book':
             offer = Offers.objects.get(requestId=data.get('requestId'))
+            offer.final_price = data.get('price')
             offer.is_active = True
             offer.user_id = data.get('user_id')
             offer.save()
@@ -76,46 +80,7 @@ def handle_request(request):
                     'success': 'False'}
             return JsonResponse({'message': message})
 
-        if data.get('type') == 'get-offers':
-            latA = float(data.get('latA'))
-            lonA = float(data.get('lonA'))
 
-            # Define the Earth's radius (mean radius in kilometers)
-            earth_radius_km = 6371.0
-
-            # Define the distance threshold in kilometers (1 kilometer in this case).
-            distance_threshold_km = 1.0
-
-            # Convert driver's latitude and longitude to radians.
-            latA_rad = radians(latA)
-            lonA_rad = radians(lonA)
-
-            # Calculate the difference in latitude and longitude (in radians) for filtering.
-            lat_diff = F('fromCoordinatesLat') - latA_rad
-            lon_diff = F('fromCoordinatesLong') - lonA_rad
-
-            # Filter offers within the distance threshold, is_active=True, and is_accepted=False.
-            try:
-                offers = Offers.objects.filter(
-                    fromCoordinatesLat__isnull=False,
-                    fromCoordinatesLong__isnull=False,
-                    lat_diff__range=(lat_diff - (0.5 * distance_threshold_km / earth_radius_km),
-                                     lat_diff + (0.5 * distance_threshold_km / earth_radius_km)),
-                    lon_diff__range=(lon_diff - (0.5 * distance_threshold_km / earth_radius_km),
-                                     lon_diff + (0.5 * distance_threshold_km / earth_radius_km)),
-                    is_active=True,
-                    is_accepted=False
-                ).annotate(
-                    distance_km=(sin(lat_diff / 2) ** 2 + cos(latA_rad) * cos(
-                        F('fromCoordinatesLat')) * sin(lon_diff / 2) ** 2) ** 0.5 * 2 * earth_radius_km,
-                    output_field=FloatField()
-                ).filter(
-                    distance_km__lte=distance_threshold_km
-                )
-            except Exception as e:
-                print(f"Error occured {str(e)}")
-            print([item for item in offers])
-            return JsonResponse({'message': 'hi'})
 
         if data.get('type') == 'fetch-rides':
             offer = Offers.objects.get(user_id=data.get(
