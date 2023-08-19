@@ -170,6 +170,32 @@
             padding: 1.5rem 2rem;
             width: 100%;
         }
+
+        @media (max-width: 768px) {
+        .content {
+            padding: 1rem;
+        }
+
+        header {
+            padding: 2rem 0;
+        }
+
+        .container {
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 50vh; /* Half of the viewport height */
+            position: relative;
+            top: 50%; /* Shift container down by 50% of the viewport height */
+            transform: translateY(50%); /* Adjust to center vertically */
+        }
+
+        .card {
+            max-width: 90%;
+            margin: 2rem;
+            padding: 2rem;
+        }
+    }
     </style>
 </head>
 
