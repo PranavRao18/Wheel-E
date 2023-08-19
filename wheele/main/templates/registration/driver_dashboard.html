@@ -121,36 +121,14 @@
 
     <div class="dashboard-container">
         <!-- Request card 1 -->
-        <div class="request-card">
-            <h2>Customer Request #1</h2>
-            <p>Amount: 25/-</p>
-            <p>Distance: 2.5 km</p>
-            <button class="btn accept-btn" onclick="acceptRequest(1)">Accept</button>
-        </div>
-
-        <!-- Request card 2 -->
-        <div class="request-card">
-            <h2>Customer Request #2</h2>
-            <p>Amount: 18/-</p>
-            <p>Distance: 1.8 km</p>
-            <button class="btn accept-btn" onclick="acceptRequest(2)">Accept</button>
-        </div>
-
-        <!-- Request card 3 -->
-        <div class="request-card">
-            <h2>Customer Request #3</h2>
-            <p>Amount: 35/-</p>
-            <p>Distance: 4.2 km</p>
-            <button class="btn accept-btn" onclick="acceptRequest(3)">Accept</button>
-        </div>
-
-        <!-- ... Add more request cards as needed ... -->
-        <div class="request-card">
-            <h2>Customer Request #4</h2>
-            <p>Amount: 50/-</p>
-            <p>Distance: 5 km</p>
-            <button class="btn accept-btn" onclick="acceptRequest(4)">Accept</button>
-        </div>
+        {% for item in items %}
+    <div class="request-card">
+        <h2>Customer Request #{{ forloop.counter }}</h2>
+        <p>Amount: {{ item.price }}</p>
+        <p>Distance: {{ item.distance }}</p>
+        <button class="btn accept-btn" onclick="acceptRequest({{ forloop.counter }})">Accept</button>
+    </div>
+{% endfor %}
     </div>
 
 
@@ -159,6 +137,47 @@
             alert('Accepted Customer Request #' + requestNumber);
             // Perform any additional actions here, such as marking the request as accepted in the backend.
         }
+        document.getElementById('showRoute').addEventListener('click', function () {
+            var locationA = document.getElementById('locationA').value;
+
+            // Use OpenStreetMap Nominatim API to geocode the locations
+            Promise.all([
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
+                    .then(response => response.json())
+                    .then(data => data[0])])
+                .then(function(results) {
+                            var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
+                            var coordinates = {
+                                type:"get-offers",
+                                latA: waypointA.lat,
+                                lonA: waypointA.lng,
+                            };
+                            sendDistanceToDjango(coordinates);});
+                        
+                            function sendDistanceToDjango(coordinates) {
+                                // Send the coordinates and distance to a Django view using an HTTP POST request
+                                fetch('/api', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
+                                    },
+                                    body: JSON.stringify(coordinates)
+                                })
+                                .then(response => {
+                                    if (response.status === 200) {
+                                        
+                                        alert('Data sent to Django server successfully.');
+                                    } else {
+                                        alert('Failed to send data to Django server.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('An error occurred while sending data to Django.');
+                                });
+                            }
+                        
     </script>
 </body>
 </html>

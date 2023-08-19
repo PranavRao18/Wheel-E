@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Include Leaflet library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Include Leaflet Routing Machine library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --green: #45C952;
+        }
+
+        * {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            outline: none;
+            border: none;
+            text-transform: capitalize;
+            transition: all .2s linear;
+        }
+
+        *::selection {
+            background: var(--green);
+            color: #fff;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-padding-top: 4rem;
+        }
+
+        section {
+            padding: 3rem;
+        }
+
+        body{
+            background-color: #45C952 ;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.5rem 2rem;
+            margin-top: 2rem;
+            border-radius: 15px;
+            background: var(--green);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.7rem;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 4rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 0 0 5rem;
+            background: linear-gradient(black, rgba(28, 20, 20, 0))
+        }
+
+        header .logo {
+            font-weight: bolder;
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        header .completelogo img {
+            width: 5rem;
+        }
+
+        header .navbar a {
+            font-size: 2rem;
+            padding: 1.5rem;
+            margin: 0.5rem;
+            color: #000;
+        }
+
+        header .navbar a:last-child {
+            font-size: 2rem;
+            padding: 1.5rem;
+            margin: 0.5rem;
+            color: #fff;
+        }
+
+        header .navbar a:hover {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        header .navbar a:hover:last-child {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        header .homelogin {
+            font-weight: bold;
+            background-color: #45C952;
+            border: #fff solid 2px;
+            border-radius: 30px;
+        }
+
+        header .homelogin:hover {
+            color: #fff;
+        }
+
+        #menu-bar {
+            font-size: 3rem;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background-color: white;
+            max-width: 500px;
+            min-width: 400px;
+            margin: 20rem;
+            padding: 5rem;
+            border-radius: 25px;
+        }
+
+        .card p {
+            margin-top: 2rem;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .card .input-field {
+            border: 1px solid #000;
+            border-radius: 10px;
+            margin: 2rem auto;
+            padding: 1.5rem 2rem;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+        <div class="content">
+            <header>
+    
+                <div class="completelogo">
+                    <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>  
+                </div>
+    
+                <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
+    
+            </header>
+            <div class="container">
+                
+            <div class="body">
+                <div class="card">
+                    <p>Hello, {{ profile.first_name }}! Book a ride now:</p>
+
+                        <div>
+                            <label for="locationA">Location A:</label>
+                            <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
+                        </div>
+                        <div>
+                            <label for="locationB">Location B:</label>
+                            <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
+                        </div>
+                        <button class="btn" id="showRoute"> Continue </button>
+                    
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <script>
+        var map = L.map('map').setView([12.971599, 77.594566], 11)
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var routingControl = L.Routing.control({
+            waypoints: [],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        document.getElementById('showRoute').addEventListener('click', function () {
+            var locationA = document.getElementById('locationA').value;
+            var locationB = document.getElementById('locationB').value;
+
+            if (locationA.trim() === "" || locationB.trim() === "") {
+                alert('Please enter both locations.');
+                return;
+            }
+
+            // Use OpenStreetMap Nominatim API to geocode the locations
+            Promise.all([
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
+                    .then(response => response.json())
+                    .then(data => data[0]),
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationB))
+                    .then(response => response.json())
+                    .then(data => data[0])
+            ])
+            .then(function(results) {
+                if (results[0] && results[1]) {
+                    var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
+                    var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
+
+                    routingControl.getPlan().setWaypoints([waypointA, waypointB]);
+                } else {
+                    alert('Locations not found.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while fetching data.');
+            });
+        });
+    </script>
+</body>
+
+</html>
