@@ -33,19 +33,16 @@ def register_view(request):
         password = request.POST.get('password')
         cfmpassword = request.POST.get('Confirmpassword')
         firstname = request.POST.get('firstname')
-        print(firstname,password)
         lastname = request.POST.get('lastname')
         phone = request.POST.get('phone')
         username = email.split('@')[0]
         
         if password != cfmpassword:
             messages.info(request,'Password and Confirm Password doesnot match!')
-            print(username)
             return redirect('register')
             
         try:
             user = User.objects.create_user(email=email, username=username, password=password)
-            print(username)
         except:
             messages.error(request,'Error Creating Account Contact Support')
             return redirect('register')
@@ -54,6 +51,36 @@ def register_view(request):
         user.last_name = lastname
         user.save()
         login(request,user)
-        print(username)
         return redirect('dashboard')
     return render(request,'auth/signup.html')
+
+def register_driver(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        cfmpassword = request.POST.get('Confirmpassword')
+        firstname = request.POST.get('firstname')
+        dob = request.POST.get('dob')
+        driverLicense = request.POST.get('license')
+        phone = request.POST.get('phone')
+        username = email.split('@')[0]
+        print("hello")
+        if password != cfmpassword:
+            messages.info(request,'Password and Confirm Password doesnot match!')
+            print(username)
+            return redirect('driverreg')
+            
+        try:
+            user = User.objects.create_user(email=email, username=username, password=password)
+            print(username)
+        except:
+            messages.error(request,'Error Creating Account Contact Support')
+            return redirect('driverreg')
+        user.license_number = driverLicense
+        user.date_of_birth = dob
+        user.phone_number = phone
+        user.first_name = firstname
+        user.save()
+        login(request,user)
+        return redirect('driver_dashboard')
+    return render(request,'auth/register_driver.html')

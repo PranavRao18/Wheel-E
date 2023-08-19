@@ -174,87 +174,61 @@
 </head>
 
 <body>
-    <div class="content">
-        <header>
-            <div class="completelogo">
-                <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>
-                <a href="#home" class="logo">Wheel-E</a>    
-            </div>
-            <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
-        </header>
-        <div class="container">
-            <div id="map" style="height: 100vh; width: 100vw;"></div>
+
+        <div class="content">
+            <header>
+    
+                <div class="completelogo">
+                    <a href="home"><img src="{% static 'images/icon.png' %}" alt=""></a>  
+                </div>
+    
+                <i class="fa-solid fa-user fa-2x" style="color: #ffffff;"></i>
+    
+            </header>
+            <div class="container">
+                
             <div class="body">
                 <div class="card">
                     <p>Hello, {{ profile.first_name }}! Book a ride now:</p>
-                    <div>
-                        <label for="locationA">Location A:</label>
-                        <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
-                    </div>
-                    <div>
-                        <label for="locationB">Location B:</label>
-                        <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
-                    </div>
-                    <button class="btn" id="showRoute"> Continue </button>
+
+                        <div>
+                            <label for="locationA">Location A:</label>
+                            <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
+                        </div>
+                        <div>
+                            <label for="locationB">Location B:</label>
+                            <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
+                        </div>
+                        <button class="btn" id="showRoute"> Continue </button>
+                    
                 </div>
             </div>
+            </div>
         </div>
-    </div>
-    
+
     <a href="{% url 'logout' %}">Logout</a>
 
     <script>
         var map = L.map('map').setView([12.971599, 77.594566], 11)
-    
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-    
+
         var routingControl = L.Routing.control({
             waypoints: [],
             routeWhileDragging: true
         }).addTo(map);
-    
-        // Get the user_id from the template variable
-        var user_id = "1";
-    
-        // Construct the WebSocket URL with user_id
-        var socketUrl = `ws://localhost:8765/?user_id=${user_id}`;
-    
-        // Create the WebSocket connection with the dynamic URL
-        var socket = new WebSocket(socketUrl);
-    
-        socket.onopen = function () {
-            console.log("WebSocket connection opened.");
-        };
-    
-        socket.onmessage = function (event) {
-            var data = JSON.parse(event.data);
-            console.log("Received from WebSocket server:", data);
-            // Process and update the UI with received data as needed
-        };
-    
-        socket.onclose = function (event) {
-            if (event.wasClean) {
-                console.log(`Closed cleanly, code=${event.code}, reason=${event.reason}`);
-            } else {
-                console.error(`Connection died`);
-            }
-        };
-    
-        socket.onerror = function (error) {
-            console.error(`WebSocket Error: ${error.message}`);
-        };
-    
+
         document.getElementById('showRoute').addEventListener('click', function () {
             var locationA = document.getElementById('locationA').value;
             var locationB = document.getElementById('locationB').value;
-    
+
             if (locationA.trim() === "" || locationB.trim() === "") {
                 alert('Please enter both locations.');
                 return;
             }
-    
+
             // Use OpenStreetMap Nominatim API to geocode the locations
             Promise.all([
                 fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(locationA))
@@ -268,30 +242,8 @@
                 if (results[0] && results[1]) {
                     var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
                     var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
+
                     routingControl.getPlan().setWaypoints([waypointA, waypointB]);
-    
-                    // Calculate the distance using Leaflet Routing Machine
-                    routingControl.on('routesfound', function(e) {
-                        var routes = e.routes;
-                        if (routes.length > 0) {
-                            var totalDistance = routes[0].summary.totalDistance; // Distance in meters
-                            // You can convert meters to other units if needed
-                            var totalDistanceInKilometers = totalDistance / 1000; // Distance in kilometers
-                            console.log('Total Distance: ' + totalDistanceInKilometers + ' kilometers');
-                            var coordinates = {
-                                latA: waypointA.lat,
-                                lonA: waypointA.lng,
-                                latB: waypointB.lat,
-                                lonB: waypointB.lng,
-                                distance: totalDistanceInKilometers
-                            };
-                            // Send the coordinates and user_id to the WebSocket server
-                            coordinates.user_id = user_id;
-                            socket.send(JSON.stringify(coordinates));
-                        } else {
-                            console.log('No routes found.');
-                        }
-                    });
                 } else {
                     alert('Locations not found.');
                 }

@@ -53,6 +53,7 @@ class User(AbstractBaseUser):
     phone_number    = models.CharField(max_length=50)
 
     is_admin        = models.BooleanField(default=False)
+    is_driver       = models.BooleanField(default=False)
     is_staff        = models.BooleanField(default=False)
     is_active       = models.BooleanField(default=False)
     is_superuser    = models.BooleanField(default=False)
@@ -60,6 +61,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
+    # Details if driver
+    date_of_birth  = models.DateField(blank=True,null=True)
+    license_number = models.CharField(max_length=255,blank=True,null=True)
+    is_license_verified = models.BooleanField(default=False)
     # Add A Created Manager
 
     objects = MyAccountManager()

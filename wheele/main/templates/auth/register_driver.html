@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,16 +89,17 @@
 <body>
     <div class="container">
         <div class="login-container">
-            <img src="{% url for 'logo' %}" alt=" Wheel-E Logo" class="logo">
+            <img src="{% static 'images/logo.png' %}" alt=" Wheel-E Logo" class="logo">
             <h2>Register as a driver</h2>
-            <form>
-                <input type="text" placeholder="Driver Name" required id="name" class="input-field"><br>
-                <input type="date" placeholder="Date of Birth" required id="dob" class="input-field"><br>
-                <input type="tel" placeholder="Phone Number" required id="phone" class="input-field"><br>
-                <input type="email" placeholder="Email Address" required id="email" class="input-field"><br>
-                <input type="text" placeholder="Driver's License Number" required id="license" class="input-field"><br>
-                <input type="password" placeholder="Set a Password" required id="password" class="input-field"><br>
-                <input type="password" placeholder="Confirm Password" required id="confpassword" class="input-field">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="Driver Name" required name="firstname" class="input-field"><br>
+                <input type="date" placeholder="Date of Birth" required name="dob" class="input-field"><br>
+                <input type="tel" placeholder="Phone Number" required name="phone" class="input-field"><br>
+                <input type="email" placeholder="Email Address" required name="email" class="input-field"><br>
+                <input type="text" placeholder="Driver's License Number" required name="license" class="input-field"><br>
+                <input type="password" placeholder="Set a Password" required name="password" class="input-field"><br>
+                <input type="password" placeholder="Confirm Password" required name="Confirmpassword" class="input-field">
                 <button type="submit" class="btn">Register</button>
             </form>
             <footer class="footer">
