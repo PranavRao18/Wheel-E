@@ -215,37 +215,6 @@
             routeWhileDragging: true
         }).addTo(map);
     
-        // Get the user_id from the template variable
-        var user_id = "1";
-    
-        // Construct the WebSocket URL with user_id
-        var socketUrl = `ws://localhost:8765/?user_id=${user_id}`;
-    
-        // Create the WebSocket connection with the dynamic URL
-        var socket = new WebSocket(socketUrl);
-    
-        socket.onopen = function () {
-            console.log("WebSocket connection opened.");
-        };
-    
-        socket.onmessage = function (event) {
-            var data = JSON.parse(event.data);
-            console.log("Received from WebSocket server:", data);
-            // Process and update the UI with received data as needed
-        };
-    
-        socket.onclose = function (event) {
-            if (event.wasClean) {
-                console.log(`Closed cleanly, code=${event.code}, reason=${event.reason}`);
-            } else {
-                console.error(`Connection died`);
-            }
-        };
-    
-        socket.onerror = function (error) {
-            console.error(`WebSocket Error: ${error.message}`);
-        };
-    
         document.getElementById('showRoute').addEventListener('click', function () {
             var locationA = document.getElementById('locationA').value;
             var locationB = document.getElementById('locationB').value;
@@ -269,29 +238,30 @@
                     var waypointA = L.latLng(parseFloat(results[0].lat), parseFloat(results[0].lon));
                     var waypointB = L.latLng(parseFloat(results[1].lat), parseFloat(results[1].lon));
                     routingControl.getPlan().setWaypoints([waypointA, waypointB]);
-    
-                    // Calculate the distance using Leaflet Routing Machine
                     routingControl.on('routesfound', function(e) {
                         var routes = e.routes;
                         if (routes.length > 0) {
+                            
                             var totalDistance = routes[0].summary.totalDistance; // Distance in meters
+                            
                             // You can convert meters to other units if needed
                             var totalDistanceInKilometers = totalDistance / 1000; // Distance in kilometers
                             console.log('Total Distance: ' + totalDistanceInKilometers + ' kilometers');
                             var coordinates = {
-                                latA: waypointA.lat,
-                                lonA: waypointA.lng,
-                                latB: waypointB.lat,
-                                lonB: waypointB.lng,
-                                distance: totalDistanceInKilometers
-                            };
-                            // Send the coordinates and user_id to the WebSocket server
-                            coordinates.user_id = user_id;
-                            socket.send(JSON.stringify(coordinates));
+                            type:"coordinates",
+                            latA: waypointA.lat,
+                            lonA: waypointA.lng,
+                            latB: waypointB.lat,
+                            lonB: waypointB.lng,
+                            distance: totalDistanceInKilometers
+                        };
+                        
+                        sendDistanceToDjango(coordinates);
                         } else {
                             console.log('No routes found.');
                         }
                     });
+                    // Calculate the distance using Leaflet Routing Machine
                 } else {
                     alert('Locations not found.');
                 }
@@ -301,6 +271,46 @@
                 alert('An error occurred while fetching data.');
             });
         });
+    
+        function sendDistanceToDjango(coordinates) {
+            // Send the coordinates and distance to a Django view using an HTTP POST request
+            fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
+                },
+                body: JSON.stringify(coordinates)
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    alert('Data sent to Django server successfully.');
+                } else {
+                    alert('Failed to send data to Django server.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while sending data to Django.');
+            });
+        }
+    
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
     </script>
 </body>
 
