@@ -191,7 +191,7 @@
             <div class="body">
                 <div class="card">
                     <p>Hello, {{ user.username }}! Book a ride now:</p>
-                    <form method="post">
+
                         <div>
                             <label for="locationA">Location A:</label>
                             <input type="text" id="locationA" placeholder="Enter pickup location" class="input-field">
@@ -200,8 +200,8 @@
                             <label for="locationB">Location B:</label>
                             <input type="text" id="locationB" placeholder="Enter drop location" class="input-field">
                         </div>
-                        <button type="submit" class="btn" id="showRoute"> Continue </button>
-                    </form>
+                        <button class="btn" id="showRoute"> Continue </button>
+                    
                 </div>
             </div>
             </div>
@@ -210,7 +210,7 @@
     <a href="{% url 'logout' %}">Logout</a>
 
     <script>
-        var map = L.map('map').setView([0, 0], 10);
+        var map = L.map('map').setView([12.971599, 77.594566], 11)
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
