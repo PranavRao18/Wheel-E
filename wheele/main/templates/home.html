@@ -68,23 +68,31 @@
             z-index: 1000;
             padding: 2rem 1rem;
             display: flex;
-            justify-content: space-between; /* Align content on the left and right */
+            justify-content: space-between;
+            /* Align content on the left and right */
             align-items: center;
-            background-color: #ffffff00; /* Set a fixed width for the sidebar */
-            height: 100vh; /* Make the sidebar full height */
+            background-color: #ffffff00;
+            width: 20rem;
+            /* Set a fixed width for the sidebar */
+            height: 100vh;
+            /* Make the sidebar full height */
         }
 
         header .completelogo img {
             margin-top: 1rem;
-            width: 100%; /* Make the logo span the full width */
+            width: 100%;
+            /* Make the logo span the full width */
         }
 
         header .navbar {
             /* Remove positioning properties */
             display: flex;
-            flex-direction: column; /* Align elements vertically */
-            align-items: flex-start; /* Align elements to the left */
-            margin-top: 1rem; /* Add spacing between items */
+            flex-direction: column;
+            /* Align elements vertically */
+            align-items: flex-start;
+            /* Align elements to the left */
+            margin-top: 1rem;
+            /* Add spacing between items */
             background-color: #eee;
             border-radius: 15px;
             height: auto;
@@ -119,17 +127,6 @@
         header .navbar a:hover:last-child {
             color: #fff;
             font-weight: bold;
-        }
-
-        header .homelogin {
-            font-weight: bold;
-            background-color: #45C952;
-            border: #fff solid 2px;
-            border-radius: 30px;
-        }
-
-        header .homelogin:hover {
-            color: #fff;
         }
 
         #menu-bar {
@@ -199,7 +196,7 @@
             padding: 1rem;
         }
 
-        .services h1{
+        .services h1 {
             font-size: 4rem;
             margin: 3rem auto;
             text-align: center;
@@ -224,8 +221,7 @@
 
 
 
-
-        /* media queries */
+        /* /* media queries */
 
         @media (max-width:1100px) {
 
@@ -249,7 +245,7 @@
                 display: block;
             }
 
-            header{
+            header {
                 align-items: flex-start;
                 height: auto;
                 width: 100%;
@@ -285,6 +281,7 @@
             }
 
             .fa-times {
+
                 transform: rotate(180deg);
             }
 
@@ -320,16 +317,16 @@
     <header>
 
         <!-- <div class="completelogo">
-            <a href="home"><img src="{% static 'images/icon.png'%}" alt=""></a>
-        </div> -->
+<a href="home"><img src="{% static 'images/icon.png'%}" alt=""></a>
+</div> -->
 
         <div id="menu-bar" class="fas fa-bars"></div>
 
         <nav class="navbar">
-            <a href="#home">home</a>
-            <a href="#services">services</a>
-            <a href="#about">about us</a>
-            <a href="#join">join as driver</a>
+            <a href="#home"><i class="fas fa-home"></i> Home</a>
+            <a href="#services"><i class="fas fa-cogs"></i> Services</a>
+            <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+            <a href="#join"><i class="fas fa-user-plus"></i> Join as Driver</a>
             <a href="{% url 'login' %}" class="btn">LOG IN</a>
         </nav>
 
@@ -345,11 +342,12 @@
 
             <div class="content1">
                 <h3>Find the best<br>Taxi Ride.</h3>
-                <p>Introducing Wheel-E: Experience eco-friendly rides with our electric taxi fleet.<br> Swift, sustainable, and
+                <p>Introducing Wheel-E: Experience eco-friendly rides with our electric taxi fleet.<br> Swift,
+                    sustainable, and
                     powered for a greener future.</p>
                 <a href="{% url 'register' %}" class="btn">RIDE NOW</a>
             </div>
-    
+
             <div class="content2">
                 <img src="{% static 'images/ev removed bg.png' %}" alt="">
             </div>
