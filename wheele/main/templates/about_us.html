@@ -2,15 +2,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Wheel-E</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel-E</title>
 
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-        <style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
@@ -82,7 +81,7 @@
             font-size: 2.5rem;
         }
 
-        header .completelogo img{
+        header .completelogo img {
             width: 5rem;
         }
 
@@ -93,7 +92,7 @@
             color: #000;
         }
 
-        header .navbar a:last-child{
+        header .navbar a:last-child {
             font-size: 2rem;
             padding: 1.5rem;
             margin: 0.5rem;
@@ -172,9 +171,15 @@
             color: #000;
             padding: 3rem 0;
         }
+        .about .content p,ul {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2rem;
+            color: #000;
+            padding: 2rem 0rem 1rem 0rem;
+        }
 
         /* ... (Existing media queries) ... */
-        
+
         @media (max-width:991px) {
 
             html {
@@ -251,16 +256,16 @@
             }
 
         }
-
     </style>
 
-    </head>
+</head>
 
-    <body>
+<body>
 
         <header>
             <div class="completelogo">
-                <a href="home"><img src="{% static 'images/icon.png' %}" alt></a>
+                <a href="home"><img src="{% url for 'logo' %}" alt></a>
+                <a href="#home" class="logo">Wheel-E</a>
             </div>
             <div id="menu-bar" class="fas fa-bars"></div>
             <nav class="navbar">
@@ -272,29 +277,45 @@
             </nav>
         </header>
 
-        <section class="about" id="about">
-            <div class="content">
-                <h3>About Us</h3>
-                <p>Welcome to Wheel-E,where innovation meets sustainable
-                    transportation. We are a trailblazing electric taxi service
-                    committed to revolutionizing the way you travel, while also
-                    reducing our carbon footprint and contributing to a cleaner
-                    environment.</p>
-            </div>
+    <section class="about" id="about">
+        <div class="content">
+            <h3>About Us</h3>
+            <p>Welcome to Wheel-E,where innovation meets sustainable
+                transportation. We are a trailblazing electric taxi service
+                committed to revolutionizing the way you travel, while also
+                reducing our carbon footprint and contributing to a cleaner
+                environment.</p>
+        </div>
 
-            <div class="content">
-                <h3>Our Mission</h3>
-                <p>
-                    At Wheel-E, our mission is to
-                    provide a convenient, reliable, and eco-friendly mode of
-                    transportation that doesn't compromise on quality or
-                    comfort. We aim to lead the transition towards emission-free
-                    urban mobility by offering state-of-the-art electric
-                    vehicles for taxi services.</p>
-            </div>
-        </section>
+        <div class="content">
+            <h3>Our Mission</h3>
+            <p>
+                At Wheel-E, our mission is to
+                provide a convenient, reliable, and eco-friendly mode of
+                transportation that doesn't compromise on quality or
+                comfort. We aim to lead the transition towards emission-free
+                urban mobility by offering state-of-the-art electric
+                vehicles for taxi services.</p>
+            <p>We value your privacy and security. We will never share your personal information with third parties
+                without your consent. We also take your safety very seriously.
+                All of our drivers are background checked and insured.
+               </p>
+               <p> Here are some of the features that make Wheel-E the best choice for your next taxi ride:
+            <ul>
+                <li>100% electric vehicles that are better for the environment</li>
+                <li>Convenient and reliable service</li>
+                <li>Competitive prices</li>
+                <li>Professional and friendly drivers</li>
+            </ul>
+               </p>
+               <p>
+            Book your ride with Wheel-E today and experience the difference!
+            </p>
 
-        <script>
+        </div>
+    </section>
+
+    <script>
         let menu = document.querySelector('#menu-bar');
         let navbar = document.querySelector('.navbar');
 
@@ -309,6 +330,6 @@
         }
     </script>
 
-    </body>
+</body>
 
 </html>

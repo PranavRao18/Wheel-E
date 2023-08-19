@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #45C952;
+        }
+
+        .loader-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .taxi-icon {
+            font-size: 4rem;
+            color: #fff;
+            animation: bounce 2s infinite;
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            opacity: 1;
+            animation: fadeIn 1s alternate infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-0.5rem); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(1rem); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="taxi-icon">
+            <i class="fas fa-taxi"></i>
+        </div>
+        <div class="loading-text">Charging...</div>
+    </div>
+    <script>
+        const loadingText = document.querySelector('.loading-text');
+        const texts = ['Charging...', 'Locating drivers nearby...'];
+        let index = 0;
+
+        function updateText() {
+            loadingText.textContent = texts[index];
+            index = (index + 1) % texts.length;
+        }
+
+        setInterval(updateText, 3000);
+    </script>
+</body>
+</html>
