@@ -72,9 +72,6 @@ Set up the server and compile the app yourself with the instructions provided.
 
 Feel free to reach out to us if you have trouble following the guide. Contact details can be found [here](#the-team)
 
-
-### Option 2: Run Server Locally and Compile the App
-
 ## Running the Server:
 
 1. **Clone the Repository**: Begin by cloning the cli-Mate repository from GitHub to your local machine. This step ensures you have the server's source code.
@@ -126,7 +123,7 @@ These steps will help you set up and run the server smoothly. You're now ready t
 
 ## TECHSTACK - Built with
 
-[![Tech](https://skillicons.dev/icons?i=html,CSS,tailwind,js,python,django)](https://skillicons.dev)
+[![Tech](https://skillicons.dev/icons?i=html,css,tailwind,js,python,django)](https://skillicons.dev)
 
 HTML, CSS, TailwindCSS, JavaScript, Python, Django
 
